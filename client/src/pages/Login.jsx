@@ -52,9 +52,13 @@ export default function Login() {
   function submitHandler(event) {
     console.log(loginInfo);
     
+    let tempLoginInfo = {
+      'name' : 'Tom',
+      'profile' :'buyer'
+    }
      //TODO : if using google auth set email and password using setLoginInfo here
 
-    localStorage.setItem("user", loginInfo);
+    localStorage.setItem("user", JSON.stringify(tempLoginInfo));
     if (loginInfo.profile == "buyer") navigate("/buyer");
     else if (loginInfo.profile == "seller") navigate("/seller");
     else navigate("/dev");
