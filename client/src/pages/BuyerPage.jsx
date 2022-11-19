@@ -23,7 +23,7 @@ export default function BuyerPage() {
   },[likedItems]);
 
 const getUserItems = () =>{
-  axios.get("/favitem?userId=Tom")
+  axios.get("/favitem")
     .then(res=>{
         let data = res.data[0];
         //data has fitemId array and userID

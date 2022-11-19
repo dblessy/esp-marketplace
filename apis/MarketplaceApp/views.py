@@ -37,7 +37,7 @@ def itemApi(request, id=0):
 @csrf_exempt
 def favitemApi(request):
     if request.method == 'GET':
-        favitem = FavItems.objects.get_queryset().filter(userId=request.GET.get('userId'))
+        favitem = FavItems.objects.get_queryset().filter(userId=request.user_id)
         favitem_serializer = FavitemsSerializer(favitem, many=True)
         return JsonResponse(favitem_serializer.data, safe=False)
     elif request.method == 'POST':

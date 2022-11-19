@@ -1,8 +1,7 @@
-import environ
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
-
-import jwt
+from google.oauth2 import id_token
+from google.auth.transport.requests import Request
 
 
 class JWTValidateMiddleware:
@@ -21,10 +20,10 @@ class JWTValidateMiddleware:
             else:
                 auth_token = ''
             if auth_token != "":
-                print("here")
                 # Specify the CLIENT_ID of the app that accesses the backend:
-                info = jwt.decode(auth_token, key=settings.CLIENT_SECRET, algorithms=['RS256', 'ES256'])
-                print(info)
+                info = id_token.verify_oauth2_token(auth_token, Request(),settings.CLIENT_ID)
+                request.user_id = info['sub']
+                request.user_name = info['name']
         except ValueError as e:
             # Invalid token
             print(e)
