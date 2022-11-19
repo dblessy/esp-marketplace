@@ -13,6 +13,7 @@ import {
 } from "reactstrap";
 
 import "../public/styles/sellerPage.css";
+import Login from "./Login";
 
 export default function SellerPage() {
   const [posted, setPosted] = useState(false);
@@ -84,6 +85,7 @@ export default function SellerPage() {
     <>
       <Navbar color="light" light expand="md">
         <NavbarBrand href="/">ESP Marketplace</NavbarBrand>
+        <Login/>
       </Navbar>
       <h2 style={{ textAlign: "center", margin: "20px" }}>
         Post an ad for your product!

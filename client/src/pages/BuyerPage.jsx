@@ -6,6 +6,7 @@ import { Navbar, NavbarBrand } from "reactstrap";
 import dummyItems from "../items";
 import ItemCard from "../components/ItemCard";
 import { useEffect } from "react";
+import Login from "./Login";
 
 export default function BuyerPage() {
   const [items, setItems] = useState([]);
@@ -57,6 +58,7 @@ const getUserItems = () =>{
             <a href="/favorites">Favorites</a>
           </span>
         </NavbarBrand>
+          <Login/>
       </Navbar>
       <Search />
       {items.map(create)}

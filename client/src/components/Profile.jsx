@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Card, Col, Row, Label } from "reactstrap";
 import buyerImg from "../public/images/Buyer.png";
 import sellerImg from "../public/images/Seller.png";
+import { useNavigate } from "react-router-dom";
 
 export default function Profile(props) {
   const [isActive, setIsActive] = useState({
@@ -14,19 +15,7 @@ export default function Profile(props) {
     textAlign: "center",
   };
 
-  function setProfile(id) {
-    if (id == "buyer") {
-      setIsActive({
-        buyer: true,
-        seller: false,
-      });
-    } else if (id == "seller") {
-      setIsActive({
-        buyer: false,
-        seller: true,
-      });
-    }
-  }
+  let navigate = useNavigate();
 
   return (
     <div>
@@ -35,8 +24,7 @@ export default function Profile(props) {
           id="buyer"
           style={profileStyle}
           onClick={() => {
-            props.selectProfile("buyer");
-            setProfile("buyer");
+            navigate("/buyer");
           }}
         >
           <Card
@@ -57,9 +45,8 @@ export default function Profile(props) {
         <Col
           id="seller"
           style={profileStyle}
-          onClick={() => {
-            props.selectProfile("seller");
-            setProfile("seller");
+         onClick={() => {
+           navigate("/seller");
           }}
         >
           <Card

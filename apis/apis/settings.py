@@ -34,6 +34,9 @@ ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
+CLIENT_ID = env('CLIENT_ID')
+CLIENT_SECRET = env('CLIENT_SECRET')
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -57,6 +60,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "MarketplaceApp.middleware.JWTValidateMiddleware",
 ]
 
 ROOT_URLCONF = "apis.urls"
@@ -87,9 +91,9 @@ DATABASES = {
     "default": {
         "ENGINE": "djongo",
         "CLIENT": {
-            "host" : "mongodb+srv://{}:{}@cluster0.waeg9.mongodb.net/?retryWrites=true&w=majority".format(env('MONGODB_USERNAME'), env('MONGODB_PASSWORD')),
-            "name" : "espDB",
-            "authMechanism" : "SCRAM-SHA-1"
+            "host": env("DB_HOST"),
+            "name": "espDB",
+            "authMechanism": "SCRAM-SHA-1"
         },
     }
 }

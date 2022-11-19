@@ -1,135 +1,104 @@
-import React, { useState } from "react";
-import "../public/styles/login.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  Form,
-  FormGroup,
-  Button,
-  Card,
-  Navbar,
-  NavbarBrand,
-} from "reactstrap";
-import { faGoogle } from "@fortawesome/free-brands-svg-icons";
+import React from 'react';
+import {useGoogleLogin, useGoogleLogout} from '@leecheuk/react-google-login';
+import { useState } from 'react';
+import { Button } from "reactstrap";
 
-import Profile from "../components/Profile";
-import { useNavigate } from "react-router-dom";
+const clientId = '410143290104-uo4i3j4jg0o03kr8momlu3ro1ogg0vee.apps.googleusercontent.com';
 
-const cardStyle = {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-};
-
-export default function Login() {
-  const [loginInfo, setLoginInfo] = useState({
-    profile: "",
-    email: "",
-    password: "",
-  });
-
-  let navigate = useNavigate();
-
-  function handleChange(event) {
-    //this is to set email and password using login form
-    const { name, value } = event.target;
-    setLoginInfo((prev) => {
-      return {
-        ...prev,
-        [name]: value,
-      };
+function Login() {
+    const [user, setUser] = useState({
+        name: "",
+        loggedIn: false,
+        prof: null,
     });
-  }
 
-  function selectProfile(val) {
-    setLoginInfo((prev) => {
-      return {
-        ...prev,
-        profile: val,
-      };
+    const onSuccess = (res) => {
+        setUser({
+            name: res.profileObj.givenName,
+            loggedIn: true,
+            prof: res.profileObj,
+        })
+
+        console.log('Login Success: currentUser:', res.profileObj);
+        localStorage.setItem('authToken', res.tokenObj.id_token);
+        localStorage.setItem('user', res.profileObj.givenName);
+        refreshTokenSetup(res);
+    };
+
+    const onLogoutSuccess = (res) => {
+        setUser({
+            name: "",
+            loggedIn: false,
+        })
+        localStorage.setItem('authToken', '');
+        localStorage.setItem('user', '');
+        console.log('Logged out Success');
+    };
+
+    const onLogoutFailure = () => {
+        setUser({
+            name: "",
+            loggedIn: false,
+        })
+        console.log('Handle failure cases');
+    };
+
+    const refreshTokenSetup = (res) => {
+        let refreshTiming = (res.tokenObj.expires_in || 3600 - 5 * 60) * 1000;
+
+        const refreshToken = async () => {
+            const newAuthRes = await res.reloadAuthResponse();
+            refreshTiming = (newAuthRes.expires_in || 3600 - 5 * 60) * 1000;
+            localStorage.setItem('authToken', newAuthRes.id_token);
+            setTimeout(refreshToken, refreshTiming);
+            setUser({
+                name: user.name,
+                loggedIn: true,
+                hasAccount: user.hasAccount,
+            })
+        };
+
+        setTimeout(refreshToken, refreshTiming);
+    };
+
+    const onFailure = (res) => {
+        console.log('Login failed: res:', res);
+        setUser({
+            name: "",
+            loggedIn: false,
+        })
+    };
+
+    const {signIn} = useGoogleLogin({
+        onSuccess,
+        onFailure,
+        clientId,
+        isSignedIn: true,
+        accessType: 'offline',
     });
-  }
 
-  function submitHandler(event) {
-    console.log(loginInfo);
-    
-    let tempLoginInfo = {
-      'name' : 'Tom',
-      'profile' :'buyer'
-    }
-     //TODO : if using google auth set email and password using setLoginInfo here
+    const {signOut} = useGoogleLogout({
+        clientId,
+        onLogoutSuccess,
+        onLogoutFailure,
+    });
 
-    localStorage.setItem("user", JSON.stringify(tempLoginInfo));
-    if (loginInfo.profile == "buyer") navigate("/buyer");
-    else if (loginInfo.profile == "seller") navigate("/seller");
-    else navigate("/dev");
-    event.preventDefault();
-  }
-
-  return (
-    <>
-      {" "}
-      <Navbar color="light" light expand="md">
-        <NavbarBrand href="/">ESP Marketplace</NavbarBrand>
-      </Navbar>
-      <div style={cardStyle}>
-        <Card className="login-form">
-          <h3 style={{ textAlign: "center" }}>Choose your account type</h3>
-          <br />
-          <Form onSubmit={submitHandler}>
-            <FormGroup floating>
-              <Profile selectProfile={selectProfile} />
-            </FormGroup>{" "}
-            <br />
-            {/* uncomment if required  - login form */}
-            {/* <FormGroup floating> */}
-            {/* <Input
-              name="email"
-              placeholder="Email"
-              type="email"
-              onChange={handleChange}
-              value={loginInfo.email}
-            />
-            <Label for="email">Email</Label>
-          </FormGroup>{" "}
-          <FormGroup floating>
-            <Input
-              name="password"
-              placeholder="Password"
-              type="password"
-              onChange={handleChange}
-              value={loginInfo.password}
-            />
-            <Label for="password">Password</Label>
-          </FormGroup>{" "}
-          no account?{" "}
-          <a href="#" style={{ color: "#70AACB" }}>
-            Signup now!
-          </a>
-          <Button className="loginBtn">Login</Button>
-          <br />
-          <br />
-          <br /> */}
-            <div className="logo">
-              Login using
-              <br />
-              <a href="">
-                <Button>
-                  <FontAwesomeIcon icon={faGoogle} size="4x" />
+    if (user.loggedIn === true) {
+        return (
+            <>
+                Hello {user.name}
+                <Button variant="outline-success" onClick={signOut}>
+                    Sign out
                 </Button>
-              </a>
-              <br />
-              <br />
-              <p>
-                Donate to our small business! Click{" "}
-                <a href="#" style={{ color: "#70AACB" }}>
-                  here
-                </a>{" "}
-                to know more.
-              </p>
-            </div>
-          </Form>
-        </Card>
-      </div>
-    </>
-  );
+            </>
+        )
+    }  else {
+        return (
+            <Button variant="outline-success" onClick={signIn}>
+                Sign in
+            </Button>
+        )
+    }
 }
+
+export default Login;
