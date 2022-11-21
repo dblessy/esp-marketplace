@@ -9,8 +9,12 @@ from MarketplaceApp.serializers import ItemsSerializer, FavitemsSerializer
 
 @csrf_exempt
 def itemApi(request, id=0):
+    userId = request.GET.get("userId", None)
     if request.method == 'GET':
-        items = Items.objects.all()
+        if userId:
+            items = Items.objects.filter(email=userId)
+        else:
+            items = Items.objects.all()
         items_serializer = ItemsSerializer(items, many=True)
         return JsonResponse(items_serializer.data, safe=False)
     elif request.method == 'POST':
@@ -38,8 +42,6 @@ def itemApi(request, id=0):
 def favitemApi(request):
     if request.method == 'GET':
         favitem = FavItems.objects.get_queryset().filter(userId=request.GET.get('userId'))
-        
-        print ('user_id',request.user_name)
         favitem_serializer = FavitemsSerializer(favitem, many=True)
         return JsonResponse(favitem_serializer.data, safe=False)
     elif request.method == 'POST':
@@ -57,13 +59,11 @@ def favitemApi(request):
                 return JsonResponse("Added Successfully", safe=False)
             return JsonResponse("Failed to Add", safe=False)
     elif request.method == 'DELETE':
-
         to_edit = FavItems.objects.get(userId=request.GET.get('userId'))
         item_id = int(request.GET.get('itemId'))
         getattr(to_edit, 'fitemId').remove(item_id)
         to_edit.save()
         return JsonResponse("Removed Successfully", safe=False)
-
 
 @csrf_exempt
 def saveImage(request):
