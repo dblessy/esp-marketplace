@@ -6,7 +6,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useMemo } from "react";
 
-//TODO: use useEffect and axios.get("/favorites") to get list of item ids that the buyer has liked 
+//TODO: use useEffect and axios.get("/favorites") to get list of item ids that the buyer has liked
 
 export default function Favorites() {
   const [favItems, setFavItems] = useState();
@@ -14,66 +14,71 @@ export default function Favorites() {
   const toggle = () => setModal(!modal);
   //
   useEffect(() => {
-    getItems()
-   // getFavItems() 
-    
-  },[]);//done today
+    getItems();
+    // getFavItems()
+  }, []); //done today
 
-  const getItems = () =>{
-    let user = (localStorage.getItem('user'))
+  const getItems = () => {
+    let user = localStorage.getItem("user");
     let data;
-    axios.get("/item")
+    axios
+      .get("/item")
       .then((res) => {
         data = res.data;
-        axios.get("/favitem",{ params :{ userId : user}})
-        .then((res) => {
-          let currData = res.data;
-          let fav = []
-          currData.map(f=>{
-              fav.push(...f.fitemId)
-          })
-          let finalItemList = []
-          fav.map(fitem =>{
-            let f = data.filter(i => i.itemId === fitem)
-            if(f.length > 0){
-              finalItemList.push(...f)
-            }
-          })
-          
+        axios
+          .get("/favitem", { params: { userId: user } })
+          .then((res) => {
+            let currData = res.data;
+            let fav = [];
+            currData.map((f) => {
+              fav.push(...f.fitemId);
+            });
+            let finalItemList = [];
+            fav.map((fitem) => {
+              let f = data.filter((i) => i.itemId === fitem);
+              if (f.length > 0) {
+                finalItemList.push(...f);
+              }
+            });
 
-          setFavItems(finalItemList)
-          //favitem axios for get //how to pass body and pass uusernamein body in axios 
-        })
+            setFavItems(finalItemList);
+            //favitem axios for get //how to pass body and pass uusernamein body in axios
+          })
 
-        .catch(err => console.log(err)) 
+          .catch((err) => console.log(err));
       })
-      .catch((err) => { });
-  }
+      .catch((err) => {});
+  };
 
-  const getFavs = useMemo(()=>{
-    return favItems
-  },[favItems])
-
+  const getFavs = useMemo(() => {
+    return favItems;
+  }, [favItems]);
 
   //
   function createCard(item) {
     console.log(item);
     return (
-      <Col className="fav-row">
-        <Card className="fav-card" onClick={toggle}>
-          <img className="item-img" src={`/photos/${item.filename}`}
-          // ={item.url} 
-          />
-          <p>${item.price}</p>
-          <p>{item.name}</p>
-        </Card>
+      <>
+        <Col className="fav-row">
+          <Card className="fav-card" onClick={toggle}>
+            <img
+              className="item-img"
+              src={`/photos/${item.filename}`}
+              // ={item.url}
+            />
+            <p>${item.price}</p>
+            <p>{item.name}</p>
+          </Card>
+        </Col>
         <Modal isOpen={modal} toggle={toggle}>
-          <Card body className="item-card">
+          <Card body className="favitem-card">
             <Row>
               <Col>
-                <img className="item-img" src={`/photos/${item.filename}`}
-                // ={item.url}
-                 />
+                <img
+                  className="item-img"
+                  src={`/photos/${item.filename}`}
+                  // ={item.url}
+                />
               </Col>
               <Col>
                 <p>${item.price}</p>
@@ -81,11 +86,12 @@ export default function Favorites() {
                 <p>Condition: {item.condition}</p>
                 <p>Ph: {item.ph}</p>
                 <p>Address: {item.address}</p>
+                <p>Posted by: {item.email}</p>
               </Col>
             </Row>
           </Card>
         </Modal>
-      </Col>
+      </>
     );
   }
 
@@ -95,7 +101,7 @@ export default function Favorites() {
         <NavbarBrand href="/">ESP Marketplace</NavbarBrand>
       </Navbar>
       <h2 style={{ textAlign: "center", margin: "20px" }}>Your favorites!</h2>
-      <Row xs="4">{favItems?favItems.map(createCard):null}</Row>
+      <Row xs="4">{favItems ? favItems.map(createCard) : null}</Row>
     </>
   );
 }

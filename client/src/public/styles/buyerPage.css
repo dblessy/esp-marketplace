@@ -12,7 +12,7 @@
 .search-icon {
     position: absolute;
     left: 77%;
-    top: calc(7.1em);
+    top: calc(7.5em);
     color: black;
 }
 
@@ -36,5 +36,5 @@
 }
 
 .brandname {
-    margin-right: 58em;
+    margin-right: 54em;
 }

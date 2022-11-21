@@ -25,6 +25,7 @@ export default function SellerPage() {
     ph: "",
     address: "",
     filename: "",
+    email: "",
   });
 
   function handleChange(e) {
@@ -75,6 +76,7 @@ export default function SellerPage() {
               ph: "",
               address: "",
               filename: "",
+              email: ""
             });
           });
       });
@@ -84,8 +86,12 @@ export default function SellerPage() {
   return (
     <>
       <Navbar color="light" light expand="md">
-        <NavbarBrand href="/">ESP Marketplace</NavbarBrand>
-        <Login/>
+        <NavbarBrand href="/">
+          <span className="brandname">ESP Marketplace</span>
+          <span><a href="/ads">ads</a></span>
+          &nbsp;&nbsp;
+          <Login />
+        </NavbarBrand>
       </Navbar>
       <h2 style={{ textAlign: "center", margin: "20px" }}>
         Post an ad for your product!
@@ -142,6 +148,16 @@ export default function SellerPage() {
                 required
               />
               <Label for="address">Address</Label>
+            </FormGroup>{" "}
+            <FormGroup floating>
+              <Input
+                name="email"
+                type="text"
+                onChange={handleChange}
+                value={ad.email}
+                required
+              />
+              <Label for="email">Email</Label>
             </FormGroup>{" "}
             <FormGroup floating>
               <Input

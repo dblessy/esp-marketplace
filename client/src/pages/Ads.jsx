@@ -3,44 +3,27 @@ import React, { useState } from "react";
 import Search from "../components/Search";
 import "../public/styles/buyerPage.css";
 import { Navbar, NavbarBrand } from "reactstrap";
-import dummyItems from "../items";
-import ItemCard from "../components/ItemCard";
+import AdCard from "../components/AdCard";
 import { useEffect } from "react";
 import Login from "./Login";
 
 export default function BuyerPage() {
   const [items, setItems] = useState([]);
-  const [likedItems, setLikedItems] = useState([]);
 
   useEffect(() => {
-    axios.get("/item")
+    axios
+      .get("/item?userId=" + localStorage.getItem("userEmail"))
       .then((res) => {
         let data = res.data;
-        setItems(data)
+        setItems(data);
       })
       .catch((err) => {});
-      getUserItems()
-  },[likedItems]);
-
-  
-const getUserItems = () =>{
-  let user = (localStorage.getItem('user'))
-  axios.get("/favitem?userId="+user)
-  // axios.get("/favitem")   
-    .then(res=>{
-        let data = res.data[0];
-        console.log(data)
-        //data has fitemId array and userID
-        setLikedItems(data.fitemId)
-    })
-    .catch(err=>console.log(err))
-}
+  }, []);
 
   function create(item) {
-    let isLiked = likedItems.filter(i => i == item.itemId).length > 0 ? true : false
-    
     return (
-      <ItemCard
+      <AdCard
+        ads={true}
         key={item.itemId}
         id={item.itemId}
         price={item.price}
@@ -49,8 +32,7 @@ const getUserItems = () =>{
         filename={item.filename}
         ph={item.ph}
         address={item.address}
-        isLiked={isLiked}
-        email={item.email}
+        email={localStorage.getItem("userEmail")}
       />
     );
   }
@@ -60,9 +42,9 @@ const getUserItems = () =>{
         <NavbarBrand href="/">
           <span className="brandname">ESP Marketplace</span>
           <span>
-            <a href="/favorites">Favorites</a>
+            <a href="/favorites">post ad</a>
             &nbsp;&nbsp;
-            <Login/>
+            <Login />
           </span>
         </NavbarBrand>
       </Navbar>

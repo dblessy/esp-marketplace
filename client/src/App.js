@@ -5,6 +5,7 @@ import { Security, LoginCallback } from "@okta/okta-react";
 import BuyerPage from "./pages/BuyerPage"
 import Favorites from './pages/Favorites';
 import SellerPage from './pages/SellerPage';
+import AdsPage from './pages/Ads';
 import DevPortal from "./pages/DevPortal";
 import axios from "axios";
 import {OktaAuth, toRelativeUrl} from "@okta/okta-auth-js";
@@ -41,6 +42,7 @@ function App() {
           <Route path="buyer" exact element={!user ? <Home /> : <BuyerPage />} />
           <Route path="favorites" exact element={!user ? <Home /> : <Favorites />} />
           <Route path="seller" exact element={!user ? <Home /> : <SellerPage />} />
+          <Route path="ads" exact element={!user ? <Home /> : <AdsPage />} />
           <Route path="dev" exact element={<DevPortal />} />
           <Route path="/dev/login/callback" exact element={<LoginCallback/>} />
         </Routes>
