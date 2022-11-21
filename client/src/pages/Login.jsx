@@ -33,6 +33,8 @@ function Login() {
         localStorage.setItem('authToken', '');
         localStorage.setItem('user', '');
         console.log('Logged out Success');
+
+        window.location.replace("/")
     };
 
     const onLogoutFailure = () => {
