@@ -20,11 +20,12 @@ export default function Favorites() {
   },[]);//done today
 
   const getItems = () =>{
+    let user = (localStorage.getItem('user'))
     let data;
     axios.get("/item")
       .then((res) => {
         data = res.data;
-        axios.get("/favitem")
+        axios.get("/favitem",{ params :{ userId : user}})
         .then((res) => {
           let currData = res.data;
           let fav = []

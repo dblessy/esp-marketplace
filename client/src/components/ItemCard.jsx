@@ -9,9 +9,12 @@ export default function ItemCard(props) {
   const [saved, setSaved] = useState(props.isLiked);
 
   function handleSave() {
-    let user = JSON.parse(localStorage.getItem('user'))
+    let user = (localStorage.getItem('user'))
+
+    console.log(user)
+   
     if(saved){///write delete if saved write post
-    axios.delete("/favitem?userId="+user.name+"&itemId="+props.id, {
+    axios.delete("/favitem?userId="+user+"&itemId="+props.id, {
       saved,
     }) .then((res) => {
       setSaved(false)
@@ -21,8 +24,9 @@ export default function ItemCard(props) {
   else{
     //post call
     axios.post("/favitem",
-    {
-        "userId": user.name,
+    {   
+        // "userId": user.name,
+        "userId": user,
         "fitemId":[props.id]
     }) .then((res) => {
       console.log(res);

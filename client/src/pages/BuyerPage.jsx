@@ -22,10 +22,14 @@ export default function BuyerPage() {
       getUserItems()
   },[likedItems]);
 
+  
 const getUserItems = () =>{
-  axios.get("/favitem")
+  let user = (localStorage.getItem('user'))
+  axios.get("/favitem?userId="+user)
+  // axios.get("/favitem")   
     .then(res=>{
         let data = res.data[0];
+        console.log(data)
         //data has fitemId array and userID
         setLikedItems(data.fitemId)
     })
