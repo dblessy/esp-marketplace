@@ -25,7 +25,7 @@ export default function SellerPage() {
     ph: "",
     address: "",
     filename: "",
-    email: "",
+    email: localStorage.getItem("userEmail"),
   });
 
   function handleChange(e) {
@@ -66,7 +66,6 @@ export default function SellerPage() {
           })
           .then((res) => {
             console.log(res);
-            console.log(fileRef);
             setPosted(true);
             fileRef.current.files = null;
             setAd({
@@ -76,7 +75,7 @@ export default function SellerPage() {
               ph: "",
               address: "",
               filename: "",
-              email: ""
+              email: localStorage.getItem("userEmail")
             });
           });
       });
@@ -148,16 +147,6 @@ export default function SellerPage() {
                 required
               />
               <Label for="address">Address</Label>
-            </FormGroup>{" "}
-            <FormGroup floating>
-              <Input
-                name="email"
-                type="text"
-                onChange={handleChange}
-                value={ad.email}
-                required
-              />
-              <Label for="email">Email</Label>
             </FormGroup>{" "}
             <FormGroup floating>
               <Input

@@ -42,7 +42,7 @@ export default function BuyerPage() {
         <NavbarBrand href="/">
           <span className="brandname">ESP Marketplace</span>
           <span>
-            <a href="/favorites">post ad</a>
+            <a href="/seller">post ad</a>
             &nbsp;&nbsp;
             <Login />
           </span>
