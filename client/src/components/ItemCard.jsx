@@ -9,36 +9,33 @@ export default function ItemCard(props) {
   const [saved, setSaved] = useState(props.isLiked);
 
   function handleSave() {
-    let user = (localStorage.getItem('user'))
+    let user = (localStorage.getItem('email'))
 
-    console.log(user)
-   
-    if(saved){///write delete if saved write post
-    axios.delete("/favitem?userId="+user+"&itemId="+props.id, {
-      saved,
-    }) .then((res) => {
-      setSaved(false)
-    }); //after then cal axios .post pass parameter of item id in function and userid as body user id will be local storage later 
+    if (saved) {///write delete if saved write post
+      axios.delete("/favitem?userId=" + user + "&itemId=" + props.id, {
+        saved,
+      }).then((res) => {
+        setSaved(false)
+      }); //after then cal axios .post pass parameter of item id in function and userid as body user id will be local storage later 
 
+    }
+    else {
+      //post call
+      axios.post("/favitem",
+        {
+          "userId": user,
+          "fitemId": [props.id]
+        }).then((res) => {
+          console.log(res);
+          setSaved(true)
+
+        })
+        .catch(err => console.log(err))
+    }
   }
-  else{
-    //post call
-    axios.post("/favitem",
-    {   
-        // "userId": user.name,
-        "userId": user,
-        "fitemId":[props.id]
-    }) .then((res) => {
-      console.log(res);
-      setSaved(true)
-
-  })
-  .catch(err=>console.log(err))
-  }
-}
   return (
-   <>
-   
+    <>
+
       <Card body className="item-card">
         <Row>
           <Col>
@@ -51,7 +48,7 @@ export default function ItemCard(props) {
                 <FontAwesomeIcon
                   style={{ color: saved ? "red" : "black" }}
                   icon={faHeart}
-                  onClick={()=>handleSave(props.itemId)}
+                  onClick={() => handleSave(props.itemId)}
                   size="2x"
                 />
               </span>

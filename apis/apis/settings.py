@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "corsheaders",
     "MarketplaceApp.apps.MarketplaceappConfig",
+    "payments"
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -86,13 +87,25 @@ WSGI_APPLICATION = "apis.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "djongo",
+#         "CLIENT": {
+#             "host": env("DB_HOST"),
+#             "name": "espDB",
+#             "authMechanism": "SCRAM-SHA-1"
+#         },
+#     }
+# }
+
+
 DATABASES = {
     "default": {
         "ENGINE": "djongo",
         "CLIENT": {
-            "host": env("DB_HOST"),
-            "name": "espDB",
-            "authMechanism": "SCRAM-SHA-1"
+            "host" : "mongodb+srv://aishwarya:Aish@cluster0.gxt243f.mongodb.net/?retryWrites=true&w=majority",
+            "name" : "espDB",
+            "authMechanism" : "SCRAM-SHA-1"
         },
     }
 }

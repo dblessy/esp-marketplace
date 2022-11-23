@@ -24,7 +24,7 @@ export default function BuyerPage() {
 
   
 const getUserItems = () =>{
-  let user = (localStorage.getItem('user'))
+  let user = (localStorage.getItem('email'))
   axios.get("/favitem?userId="+user)
   // axios.get("/favitem")   
     .then(res=>{

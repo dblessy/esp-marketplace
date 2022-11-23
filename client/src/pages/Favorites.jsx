@@ -20,7 +20,7 @@ export default function Favorites() {
   },[]);//done today
 
   const getItems = () =>{
-    let user = (localStorage.getItem('user'))
+    let user = (localStorage.getItem('email'))
     let data;
     axios.get("/item")
       .then((res) => {

@@ -22,6 +22,7 @@ function Login() {
         console.log('Login Success: currentUser:', res.profileObj);
         localStorage.setItem('authToken', res.tokenObj.id_token);
         localStorage.setItem('user', res.profileObj.givenName);
+        localStorage.setItem('email', res.profileObj.email);
         refreshTokenSetup(res);
     };
 
@@ -32,6 +33,7 @@ function Login() {
         })
         localStorage.setItem('authToken', '');
         localStorage.setItem('user', '');
+        localStorage.setItem('email',' ');
         console.log('Logged out Success');
 
         window.location.replace("/")

@@ -15,21 +15,29 @@ const cardStyle = {
 };
 
 export default function Home() {
-    return (
+  return (
     <>
       {" "}
       <Navbar color="light" light expand="md">
         <NavbarBrand href="/">ESP Marketplace</NavbarBrand>
-          <Login/>
+        <Login />
       </Navbar>
       <div style={cardStyle}>
         <Card className="login-form">
-            <h3 style={{ textAlign: "center" }}>Choose your account type</h3>
-            <br />
-            <Profile/>
-            <br />
+          <h3 style={{ textAlign: "center" }}>Choose your account type</h3>
+          <br />
+          <Profile />
+          <br />
+          <p style={{  textAlign: "center"}}>
+        Donate to our small business! Click{" "}
+        <a href="http://localhost:8000/payment" style={{ color: "#70AACB"}}>
+          here
+        </a>{" "}
+      </p>
+
         </Card>
       </div>
+      
     </>
-    );
+  );
 }

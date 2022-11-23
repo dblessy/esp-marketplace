@@ -19,5 +19,6 @@ from django.urls import re_path as url, include
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    url(r'^', include('MarketplaceApp.urls'))
+    url(r'^', include('MarketplaceApp.urls')),
+    path('payment/', include('payments.urls'))
 ]
