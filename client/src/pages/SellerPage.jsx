@@ -25,6 +25,7 @@ export default function SellerPage() {
     ph: "",
     address: "",
     filename: "",
+    email: localStorage.getItem("userEmail"),
   });
 
   function handleChange(e) {
@@ -65,7 +66,6 @@ export default function SellerPage() {
           })
           .then((res) => {
             console.log(res);
-            console.log(fileRef);
             setPosted(true);
             fileRef.current.files = null;
             setAd({
@@ -75,6 +75,7 @@ export default function SellerPage() {
               ph: "",
               address: "",
               filename: "",
+              email: localStorage.getItem("userEmail")
             });
           });
       });
@@ -84,8 +85,12 @@ export default function SellerPage() {
   return (
     <>
       <Navbar color="light" light expand="md">
-        <NavbarBrand href="/">ESP Marketplace</NavbarBrand>
-        <Login/>
+        <NavbarBrand href="/">
+          <span className="brandname">ESP Marketplace</span>
+          <span><a href="/ads">ads</a></span>
+          &nbsp;&nbsp;
+          <Login />
+        </NavbarBrand>
       </Navbar>
       <h2 style={{ textAlign: "center", margin: "20px" }}>
         Post an ad for your product!

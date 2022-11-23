@@ -5,33 +5,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 
 export default function ItemCard(props) {
-  const [saved, setSaved] = useState(props.isLiked);
-
-  function handleSave() {
-    let user = (localStorage.getItem('email'))
-
-    if (saved) {///write delete if saved write post
-      axios.delete("/favitem?userId=" + user + "&itemId=" + props.id, {
-        saved,
-      }).then((res) => {
-        setSaved(false)
-      }); //after then cal axios .post pass parameter of item id in function and userid as body user id will be local storage later 
-
-    }
-    else {
-      //post call
-      axios.post("/favitem",
-        {
-          "userId": user,
-          "fitemId": [props.id]
-        }).then((res) => {
-          console.log(res);
-          setSaved(true)
-
-        })
-        .catch(err => console.log(err))
-    }
+  function handleDelete() {
+    axios.delete("/item/" + props.id).then((res) => {
+      window.location.reload();
+    });
   }
+
   return (
     <>
       <Card body className="item-card">
@@ -44,9 +23,9 @@ export default function ItemCard(props) {
               <span className="icon">${props.price}</span>{" "}
               <span>
                 <FontAwesomeIcon
-                  style={{ color: saved ? "red" : "black" }}
-                  icon={faHeart}
-                  onClick={() => handleSave(props.itemId)}
+                  style={{ color: "black" }}
+                  icon={faTrash}
+                  onClick={() => handleDelete(props.email)}
                   size="2x"
                 />
               </span>

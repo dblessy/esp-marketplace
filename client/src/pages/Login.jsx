@@ -22,7 +22,7 @@ function Login() {
         console.log('Login Success: currentUser:', res.profileObj);
         localStorage.setItem('authToken', res.tokenObj.id_token);
         localStorage.setItem('user', res.profileObj.givenName);
-        localStorage.setItem('email', res.profileObj.email);
+        localStorage.setItem('userEmail', res.profileObj.email);
         refreshTokenSetup(res);
     };
 
@@ -90,7 +90,6 @@ function Login() {
     if (user.loggedIn === true) {
         return (
             <>
-                Hello {user.name}
                 <Button variant="outline-success" onClick={signOut}>
                     Sign out
                 </Button>
