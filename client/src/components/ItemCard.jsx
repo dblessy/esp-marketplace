@@ -8,7 +8,7 @@ export default function ItemCard(props) {
   const [saved, setSaved] = useState(props.isLiked);
 
   function handleSave() {
-    let user = (localStorage.getItem('email'))
+    let user = (localStorage.getItem('userEmail'))
 
     if (saved) {///write delete if saved write post
       axios.delete("/favitem?userId=" + user + "&itemId=" + props.id, {

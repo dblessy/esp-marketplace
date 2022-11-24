@@ -33,7 +33,7 @@ function Login() {
         })
         localStorage.setItem('authToken', '');
         localStorage.setItem('user', '');
-        localStorage.setItem('email',' ');
+        localStorage.setItem('userEmail',' ');
         console.log('Logged out Success');
 
         window.location.replace("/")
