@@ -13,32 +13,36 @@ export default function BuyerPage() {
   const [likedItems, setLikedItems] = useState([]);
 
   useEffect(() => {
-    axios.get("/item")
-      .then((res) => {
-        let data = res.data;
-        setItems(data)
-      })
-      .catch((err) => {});
-      getUserItems()
-  },[likedItems]);
+    if (likedItems != undefined) {
+      axios
+        .get("/item")
+        .then((res) => {
+          let data = res.data;
+          setItems(data);
+        })
+        .catch((err) => {});
+      getUserItems();
+    }
+  }, []);
 
-  
-const getUserItems = () =>{
-  let user = (localStorage.getItem('userEmail'))
-  axios.get("/favitem?userId="+user)
-  // axios.get("/favitem")   
-    .then(res=>{
+  const getUserItems = () => {
+    let user = localStorage.getItem("userEmail");
+    axios
+      .get("/favitem?userId=" + user)
+      // axios.get("/favitem")
+      .then((res) => {
         let data = res.data[0];
-        console.log(data)
+        if (data == undefined) setLikedItems([]);
         //data has fitemId array and userID
-        setLikedItems(data.fitemId)
-    })
-    .catch(err=>console.log(err))
-}
+        else setLikedItems(data.fitemId);
+      })
+      .catch((err) => console.log(err));
+  };
 
   function create(item) {
-    let isLiked = likedItems.filter(i => i == item.itemId).length > 0 ? true : false
-    
+    let isLiked =
+      likedItems.filter((i) => i == item.itemId).length > 0 ? true : false;
+
     return (
       <ItemCard
         key={item.itemId}
@@ -62,7 +66,7 @@ const getUserItems = () =>{
           <span>
             <a href="/favorites">Favorites</a>
             &nbsp;&nbsp;
-            <Login/>
+            <Login />
           </span>
         </NavbarBrand>
       </Navbar>
