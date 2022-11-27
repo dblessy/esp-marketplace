@@ -103,7 +103,7 @@ DATABASES = {
     "default": {
         "ENGINE": "djongo",
         "CLIENT": {
-            "host" : "mongodb+srv://aishwarya:Aish@cluster0.gxt243f.mongodb.net/?retryWrites=true&w=majority",
+            "host" : env("DB_HOST"),
             "name" : "espDB",
             "authMechanism" : "SCRAM-SHA-1"
         },
