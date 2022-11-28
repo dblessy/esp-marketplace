@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../public/styles/favorites.css";
-import { Card, Row, Col } from "reactstrap";
+import { Card, Row, Col,Spinner } from "reactstrap";
 import { Navbar, NavbarBrand, Modal } from "reactstrap";
 import axios from "axios";
 import { useEffect } from "react";
@@ -10,6 +10,7 @@ import { useMemo } from "react";
 
 export default function Favorites() {
   const [favItems, setFavItems] = useState();
+  const [loading, setLoading] = useState(false);
   const [modal, setModal] = useState(false);
   const toggle = () => setModal(!modal);
   //
@@ -22,6 +23,7 @@ export default function Favorites() {
   const getItems = () =>{
     let user = (localStorage.getItem('userEmail'))
     let data;
+    setLoading(true)
     axios
       .get("/item")
       .then((res) => {
@@ -43,6 +45,7 @@ export default function Favorites() {
             });
 
             setFavItems(finalItemList);
+            setLoading(false)
             //favitem axios for get //how to pass body and pass uusernamein body in axios
           })
 
@@ -59,7 +62,7 @@ export default function Favorites() {
   function createCard(item) {
     console.log(item);
     return (
-      <>
+            <>
         <Col className="fav-row">
           <Card className="fav-card" onClick={toggle}>
             <img
@@ -102,7 +105,16 @@ export default function Favorites() {
         <NavbarBrand href="/">ESP Marketplace</NavbarBrand>
       </Navbar>
       <h2 style={{ textAlign: "center", margin: "20px" }}>Your favorites!</h2>
+      {loading ?
+      
+      <div className="loading">
+        <Spinner animation="border" role="status"/>
+        <span>Loading...</span>
+      </div>
+
+    :
       <Row xs="4">{favItems ? favItems.map(createCard) : null}</Row>
+    }
     </>
   );
 }

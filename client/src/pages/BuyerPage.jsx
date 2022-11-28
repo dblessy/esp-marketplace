@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import Search from "../components/Search";
 import "../public/styles/buyerPage.css";
-import { Navbar, NavbarBrand } from "reactstrap";
+import { Navbar, NavbarBrand, Spinner} from "reactstrap";
 import dummyItems from "../items";
 import ItemCard from "../components/ItemCard";
 import { useEffect } from "react";
@@ -10,6 +10,7 @@ import Login from "./Login";
 
 export default function BuyerPage() {
   const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [likedItems, setLikedItems] = useState([]);
 
   useEffect(() => {
@@ -27,6 +28,7 @@ export default function BuyerPage() {
 
   const getUserItems = () => {
     let user = localStorage.getItem("userEmail");
+    setLoading(true)
     axios
       .get("/favitem?userId=" + user)
       // axios.get("/favitem")
@@ -35,6 +37,7 @@ export default function BuyerPage() {
         if (data == undefined) setLikedItems([]);
         //data has fitemId array and userID
         else setLikedItems(data.fitemId);
+        setLoading(false)
       })
       .catch((err) => console.log(err));
   };
@@ -71,7 +74,13 @@ export default function BuyerPage() {
         </NavbarBrand>
       </Navbar>
       <Search />
-      {items.map(create)}
+      {loading ?
+      
+      <div className="loading">
+        <Spinner animation="border" role="status"/>
+        <span>Loading...</span>
+      </div>:
+      items.map(create)}
     </>
   );
 }
