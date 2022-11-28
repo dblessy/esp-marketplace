@@ -65,9 +65,19 @@ def favitemApi(request):
         to_edit.save()
         return JsonResponse("Removed Successfully", safe=False)
 
+
 @csrf_exempt
 def saveImage(request):
     print(request.FILES)
     file = request.FILES['file']
     file_name = default_storage.save(file.name, file)
     return JsonResponse(file_name, safe=False)
+
+
+@csrf_exempt
+def searchApi(request):
+    if request.method == 'GET':
+        search = request.GET.get('query')
+        items = Items.objects.filter(name__icontains=search)
+        items_serializer = ItemsSerializer(items, many=True)
+        return JsonResponse(items_serializer.data, safe=False)

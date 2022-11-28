@@ -1,32 +1,22 @@
-import React, { useState } from "react";
+import React  from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlassDollar } from "@fortawesome/free-solid-svg-icons";
 
-export default function Search() {
-  const [searchKey, setSearchKey] = useState("");
-  function handleChange(e) {
-    //TODO:autocomplete functionality here
-
-    setSearchKey(e.target.value);
-    console.log(searchKey);
-  }
-
-  function searchItems() {
-    console.log("fetch items with search key in name from db");
-  }
-
+export default function Search(props) {
+  const {searchKey, setSearchKey, searchItems } = props;
   return (
     <>
       <input
         type="search"
         className="form-control"
-        onChange={handleChange}
+        onChange={(e) => setSearchKey(e.target.value)}
         placeholder="Find Items"
         id="search-bar"
+        value={searchKey}
       />
-      <a type="submit" onClick={searchItems} className="search-icon">
+      <button type="submit" onClick={searchItems} className="search-icon">
         <FontAwesomeIcon icon={faMagnifyingGlassDollar} />
-      </a>
+      </button>
     </>
   );
 }
