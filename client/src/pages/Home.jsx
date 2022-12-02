@@ -30,7 +30,7 @@ export default function Home() {
           <br />
           <p style={{  textAlign: "center"}}>
         Donate to our small business! Click{" "}
-        <a href="http://localhost:8000/payment" style={{ color: "#70AACB"}}>
+        <a href="https://apis.127-0-0-1.sslip.io/payment" style={{ color: "#70AACB"}}>
           here
         </a>{" "}
       </p>

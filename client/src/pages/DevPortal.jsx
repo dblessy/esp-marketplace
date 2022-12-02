@@ -35,19 +35,19 @@ export default function DevPortal() {
             style={{ textAlign: "center", margin: "10px", marginTop: "20px" }}
           >
             <a
-              href="https://github.com/TechWizards-ESPMarketplace/esp-marketplace"
+              href="https://github.com/orgs/Pramatha-Nadig/sso"
               style={{ color: "black" }}
             >
               <Button style={{ margin: "20px" }}>
                 <FontAwesomeIcon icon={faGithubAlt} size="6x" />
               </Button>
             </a>
-            <a href="jenkins.127-0-0-1.sslip.io" style={{ color: "black" }}>
+            <a href="https://jenkins.127-0-0-1.sslip.io" style={{ color: "black" }}>
               <Button style={{ margin: "20px" }}>
                 <FontAwesomeIcon icon={faJenkins} size="6x" />
               </Button>
             </a>
-            <a href="grafana.127-0-0-1.sslip.io">
+            <a href="https://grafana.127-0-0-1.sslip.io">
               <Button style={{ margin: "20px" }}>
                 <img
                   src="https://www.vectorlogo.zone/logos/grafana/grafana-icon.svg"
@@ -57,7 +57,7 @@ export default function DevPortal() {
               </Button>
             </a>
 
-            <a href="alertmanager.127-0-0-1.sslip.io">
+            <a href="https://prometheus.127-0-0-1.sslip.io">
               <Button style={{ margin: "20px" }}>
                 <img
                   src="https://cdn.iconscout.com/icon/free/png-256/prometheus-282488.png"
@@ -66,7 +66,7 @@ export default function DevPortal() {
                 />
               </Button>
             </a>
-            <a href="prometheus.127-0-0-1.sslip.io">
+            <a href="https://alertmanager.127-0-0-1.sslip.io">
               <Button style={{ margin: "20px" }}>
                 <img
                   src="https://cdn.iconscout.com/icon/free/png-256/prometheus-282488.png"

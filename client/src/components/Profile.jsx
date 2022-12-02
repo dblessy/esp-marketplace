@@ -15,7 +15,7 @@ export default function Profile(props) {
     textAlign: "center",
   };
 
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   return (
     <div>
@@ -24,7 +24,7 @@ export default function Profile(props) {
           id="buyer"
           style={profileStyle}
           onClick={() => {
-            navigate("/buyer");
+            window.location.replace("/buyer");
           }}
         >
           <Card
@@ -46,7 +46,7 @@ export default function Profile(props) {
           id="seller"
           style={profileStyle}
          onClick={() => {
-           navigate("/seller");
+          window.location.replace("/seller");
           }}
         >
           <Card
